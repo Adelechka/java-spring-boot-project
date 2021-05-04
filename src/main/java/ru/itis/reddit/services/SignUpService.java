@@ -1,7 +1,8 @@
 package ru.itis.reddit.services;
 
 import ru.itis.reddit.dto.UserForm;
+import ru.itis.reddit.model.User;
 
 public interface SignUpService {
-    void signUp(UserForm form);
+    User signUp(UserForm form);
 }

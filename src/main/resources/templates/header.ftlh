@@ -8,7 +8,7 @@
 
             <div id="navbarSupportedContent" class="collapse navbar-collapse">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active"><a href="#" class="nav-link text-uppercase font-weight-bold">TEXT</a>
+                    <li class="nav-item active"><a href="/" class="nav-link text-uppercase font-weight-bold"><i class="fas fa-home"></i> Главная</a>
                     </li>
                     <li class="nav-item"><a href="#" class="nav-link text-uppercase font-weight-bold">TEXT</a></li>
                     <li class="nav-item"><a href="#" class="nav-link text-uppercase font-weight-bold">TEXT</a></li>

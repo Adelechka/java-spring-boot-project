@@ -53,8 +53,8 @@
                                 <#else>
                                     <#if admins_user.isActive()>
                                         <form method="post" action="/ban/${admins_user.id}">
-                                           < <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-                                            input type="submit" class="btn btn-danger" value="Заблокировать">
+                                           <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                                           <input type="submit" class="btn btn-danger" value="Заблокировать">
                                         </form>
                                     <#else>
                                         <form method="post" action="/unban/${admins_user.id}">

@@ -26,15 +26,12 @@
                     <i class="fas fa-lock"></i>
                     <input name="password" type="password" placeholder="Пароль" required/>
                 </div>
-
-
                 <label>
                     <input type="checkbox" name="remember-me"> Запомнить меня
                 </label>
-
                 <input type="submit" value="Войти" class="btn solid"/>
             </form>
-            <form action="/signUp" method="post" class="sign-up-form">
+            <form action="/signUp" method="post" class="sign-up-form" enctype="multipart/form-data">
                 <h2 class="title">Создать аккаунт</h2>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                 <div class="input-field">
@@ -44,6 +41,10 @@
                 <div class="input-field">
                     <i class="fas fa-angle-right"></i>
                     <input name="lastName" type="text" placeholder="Фамилия" required/>
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-angle-right"></i>
+                    <input class="form-control" type="file" name="image" accept="image/png, image/jpeg" placeholder="Выберите файл"/>
                 </div>
                 <div class="input-field">
                     <i class="fas fa-user"></i>

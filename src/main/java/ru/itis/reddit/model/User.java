@@ -1,13 +1,13 @@
 package ru.itis.reddit.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
+@ToString(exclude = "posts")
+@EqualsAndHashCode(exclude = "posts")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,6 +28,9 @@ public class User {
     private String login;
 
     private String hashPassword;
+
+    @Column(nullable = true)
+    private String photos;
 
     @Enumerated(value = EnumType.STRING)
     private State state;
@@ -54,5 +57,14 @@ public class User {
     public boolean isAdmin() {
         return this.role == Role.ADMIN;
     }
+
+    @OneToMany(mappedBy = "author")
+    private List<Post> posts;
+
+    @OneToMany(mappedBy = "author")
+    private List<Comment> comments;
+
+    @ManyToMany(mappedBy = "likes")
+    private List<Post> likedPosts;
 
 }
