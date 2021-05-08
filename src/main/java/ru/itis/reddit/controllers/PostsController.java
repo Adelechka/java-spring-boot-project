@@ -85,18 +85,6 @@ public class PostsController {
         return "post_page";
     }
 
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping(value = "/post/comment_post{post-id}")
-    public String commentPost(@AuthenticationPrincipal UserDetailsImpl user, @PathVariable("post-id") Long postId, CommentDto commentDto) {
-        Comment comment = Comment
-                .builder()
-                .text(commentDto.getText())
-                .post(postsService.getPostById(postId))
-                .author(usersService.getUserByUsername(user.getUsername()))
-                .build();
-        commentsService.saveComment(comment);
-        return "redirect:/post_id" + postId;
-    }
 
     @SneakyThrows
     @PreAuthorize("isAuthenticated()")
@@ -119,32 +107,6 @@ public class PostsController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping(value = "/like_post{post-id}")
-    public String likePost(@AuthenticationPrincipal UserDetailsImpl user, @PathVariable("post-id") Long postId, HttpServletRequest request) {
-        String page;
-        if (request.getHeader("referer").split("/").length == 4) {
-            page = request.getHeader("referer").split("/")[3];
-        } else {
-            page = "";
-        }
-        postsService.likePost(usersService.getUserByUsername(user.getUsername()).getId(), postId);
-        return "redirect:/" + page;
-    }
-
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping(value = "/dislike_post{post-id}")
-    public String dislikePost(@AuthenticationPrincipal UserDetailsImpl user, @PathVariable("post-id") Long postId, HttpServletRequest request) {
-        String page;
-        if (request.getHeader("referer").split("/").length == 4) {
-            page = request.getHeader("referer").split("/")[3];
-        } else {
-            page = "";
-        }
-        postsService.dislikePost(usersService.getUserByUsername(user.getUsername()).getId(), postId);
-        return  "redirect:/" + page;
-    }
-
-    @PreAuthorize("isAuthenticated()")
     @PostMapping(value = "/delete_post{post-id}")
     public String deletePost(@PathVariable("post-id") Long postId, HttpServletRequest request) {
         postsService.deletePost(postId);
@@ -159,14 +121,6 @@ public class PostsController {
             page = "";
         }
         return "redirect:/" + page;
-    }
-
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping(value = "/delete_comment{comment-id}")
-    public String deleteComment(@PathVariable("comment-id") Long commentId, HttpServletRequest request) {
-        Long postId = commentsService.getPostIdByCommentId(commentId);
-        commentsService.deleteComment(commentId);
-        return "redirect:/post_id" + postId;
     }
 
 }
