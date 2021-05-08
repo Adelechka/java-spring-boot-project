@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import ru.itis.reddit.dto.CommentDto;
-import ru.itis.reddit.model.Comment;
 import ru.itis.reddit.model.Post;
 import ru.itis.reddit.security.details.UserDetailsImpl;
 import ru.itis.reddit.services.CommentsService;
