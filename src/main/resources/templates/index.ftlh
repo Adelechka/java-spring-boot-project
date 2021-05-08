@@ -26,7 +26,6 @@
                         </#list>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

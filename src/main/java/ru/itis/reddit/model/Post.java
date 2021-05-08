@@ -24,7 +24,7 @@ public class Post {
     @JoinColumn(name = "author_id")
     private User author;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Comment> comments;
 
     @ManyToMany

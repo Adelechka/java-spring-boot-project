@@ -8,21 +8,23 @@
 
             <div id="navbarSupportedContent" class="collapse navbar-collapse">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active"><a href="/" class="nav-link text-uppercase font-weight-bold"><i class="fas fa-home"></i> Главная</a>
+                    <li class="nav-item active"><a href="/" class="nav-link text-uppercase font-weight-bold"><i
+                                    class="fas fa-home"></i> Главная</a>
                     </li>
-                    <li class="nav-item"><a href="#" class="nav-link text-uppercase font-weight-bold">TEXT</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link text-uppercase font-weight-bold">TEXT</a></li>
-                    <li class="nav-item"><a href="/profile" class="nav-link text-uppercase font-weight-bold"><i
-                                    class="fas fa-user"></i> Моя страница</a></li>
-                    <#if isAdmin??>
-                    <li class="nav-item"><a href="/manageUsers" class="nav-link text-uppercase font-weight-bold"><i
-                                    class="fas fa-cogs"></i> Пользователи</a></li>
-                    </#if>
-                    <li class="nav-item"><a href="/signIn" class="nav-link text-uppercase font-weight-bold"> <i
-                                    class="fas fa-sign-in-alt"></i> Войти</a></li>
-                    <li class="nav-item"><a href="/logout" class="nav-link text-uppercase font-weight-bold"> <i
-                                    class="fas fa-sign-out-alt"></i> Выйти</a></li>
 
+                    <#if isAdmin == true>
+                        <li class="nav-item"><a href="/manageUsers" class="nav-link text-uppercase font-weight-bold"><i
+                                        class="fas fa-cogs"></i> Пользователи</a></li>
+                    </#if>
+                    <#if auth == false>
+                        <li class="nav-item"><a href="/signIn" class="nav-link text-uppercase font-weight-bold"> <i
+                                        class="fas fa-sign-in-alt"></i> Войти</a></li>
+                    <#else>
+                        <li class="nav-item"><a href="/profile" class="nav-link text-uppercase font-weight-bold"><i
+                                        class="fas fa-user"></i> Моя страница</a></li>
+                        <li class="nav-item"><a href="/logout" class="nav-link text-uppercase font-weight-bold"> <i
+                                        class="fas fa-sign-out-alt"></i> Выйти</a></li>
+                    </#if>
                 </ul>
             </div>
         </div>

@@ -16,4 +16,6 @@ public interface PostsService {
     void deletePost(Long id);
     List<PostView> getAllWithLikes(List<Post> posts, Long userId);
     List<PostView> getAllWithoutLikes(List<Post> posts);
+    List<Post> getPostsById(Long postId);
+    Post getPostById(Long postId);
 }

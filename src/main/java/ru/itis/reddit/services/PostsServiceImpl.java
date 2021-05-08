@@ -7,6 +7,7 @@ import ru.itis.reddit.model.Post;
 import ru.itis.reddit.repositories.PostsRepository;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -77,5 +78,17 @@ public class PostsServiceImpl implements PostsService {
             postsForHtml.add(new PostView(post, 0));
         }
         return postsForHtml;
+    }
+
+    @Override
+    public List<Post> getPostsById(Long postId) {
+        List<Post> post = new LinkedList<>();
+        post.add(postsRepository.getOne(postId));
+        return post;
+    }
+
+    @Override
+    public Post getPostById(Long postId) {
+        return postsRepository.getOne(postId);
     }
 }

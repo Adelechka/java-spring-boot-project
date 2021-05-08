@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import ru.itis.reddit.dto.CommentDto;
+import ru.itis.reddit.model.Comment;
 import ru.itis.reddit.model.Post;
-import ru.itis.reddit.model.User;
 import ru.itis.reddit.security.details.UserDetailsImpl;
+import ru.itis.reddit.services.CommentsService;
 import ru.itis.reddit.services.PostsService;
 import ru.itis.reddit.services.UsersService;
 import ru.itis.reddit.utils.FileUploadUtil;
@@ -33,6 +35,9 @@ public class PostsController {
 
     @Autowired
     private UsersService usersService;
+
+    @Autowired
+    private CommentsService commentsService;
 
     @Autowired
     private FileUploadUtil fileUploadUtil;
@@ -59,6 +64,38 @@ public class PostsController {
             model.addAttribute("posts", postsService.getAllWithoutLikes(postsService.getAll()));
         }
         return "index";
+    }
+
+    @PermitAll
+    @GetMapping(value = "/post_id{post-id}")
+    public String getPost(@AuthenticationPrincipal UserDetailsImpl user, @PathVariable("post-id") Long postId, Model model) {
+        if (user != null) {
+            model.addAttribute("postId", postId);
+            model.addAttribute("isAdmin", usersService.getUserByUsername(user.getUsername()).isAdmin());
+            model.addAttribute("auth", true);
+            model.addAttribute("user", usersService.getUserByUsername(user.getUsername()));
+            model.addAttribute("posts", postsService.getAllWithLikes(postsService.getPostsById(postId), usersService.getUserByUsername(user.getUsername()).getId()));
+            model.addAttribute("auth_user_id", usersService.getUserByUsername(user.getUsername()).getId());
+        } else {
+            model.addAttribute("isAdmin", false);
+            model.addAttribute("auth", false);
+            model.addAttribute("posts", postsService.getAllWithoutLikes(postsService.getPostsById(postId)));
+        }
+        model.addAttribute("comment_for_post", commentsService.getAllCommentsForPost(postId));
+        return "post_page";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping(value = "/post/comment_post{post-id}")
+    public String commentPost(@AuthenticationPrincipal UserDetailsImpl user, @PathVariable("post-id") Long postId, CommentDto commentDto) {
+        Comment comment = Comment
+                .builder()
+                .text(commentDto.getText())
+                .post(postsService.getPostById(postId))
+                .author(usersService.getUserByUsername(user.getUsername()))
+                .build();
+        commentsService.saveComment(comment);
+        return "redirect:/post_id" + postId;
     }
 
     @SneakyThrows
@@ -113,10 +150,23 @@ public class PostsController {
         postsService.deletePost(postId);
         String page;
         if (request.getHeader("referer").split("/").length == 4) {
-            page = request.getHeader("referer").split("/")[3];
+            if (request.getHeader("referer").contains("post_id")) {
+                page = "";
+            } else {
+                page = request.getHeader("referer").split("/")[3];
+            }
         } else {
             page = "";
         }
         return "redirect:/" + page;
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping(value = "/delete_comment{comment-id}")
+    public String deleteComment(@PathVariable("comment-id") Long commentId, HttpServletRequest request) {
+        Long postId = commentsService.getPostIdByCommentId(commentId);
+        commentsService.deleteComment(commentId);
+        return "redirect:/post_id" + postId;
+    }
+
 }

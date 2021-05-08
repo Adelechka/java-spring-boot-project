@@ -1,14 +1,18 @@
 <div class="col-md-6 offset-md-3 mb-3">
     <div class="card">
         <div class="card-header">
-            <#if auth == true>
-                <#if auth_user_id == post.post.author.id>
-                    <form style="margin-bottom: 0" method="post" action="/delete_post${post.post.id}">
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-                        <input class="btn btn-danger" type="submit" value="Удалить">
-                    </form>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="/post_id${post.post.id}" class="btn btn-dark">${post.post.comments?size}
+                    комментариев >> </a>
+                <#if auth == true>
+                    <#if auth_user_id == post.post.author.id>
+                        <form style="margin-bottom: 0" method="post" action="/delete_post${post.post.id}">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                            <input class="btn btn-danger" type="submit" value="Удалить">
+                        </form>
+                    </#if>
                 </#if>
-            </#if>
+            </div>
         </div>
         <div class="card-body">
             <#if post.post.picture??>
