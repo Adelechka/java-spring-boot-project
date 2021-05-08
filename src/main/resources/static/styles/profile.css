@@ -135,8 +135,10 @@ a .material-icons {
 
 .profile-page .profile img {
     max-width: 160px;
-    width: 100%;
+    height: auto;
     margin: 0 auto;
+    overflow: hidden;
+    object-fit: cover;
     -webkit-transform: translate3d(0,-50%,0);
     -moz-transform: translate3d(0,-50%,0);
     -o-transform: translate3d(0,-50%,0);
@@ -149,7 +151,7 @@ a .material-icons {
 }
 
 .rounded-circle {
-    border-radius: 50%!important;
+    border-radius: 15%!important;
 }
 
 .img-fluid, .img-thumbnail {

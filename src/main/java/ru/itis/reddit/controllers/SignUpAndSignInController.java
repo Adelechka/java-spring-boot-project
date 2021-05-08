@@ -42,15 +42,14 @@ public class SignUpAndSignInController {
     @PermitAll
     @PostMapping("/signUp")
     public String signUp(UserForm form, @RequestParam("image") MultipartFile multipartFile) {
-
-        if (multipartFile != null) {
+        if (!multipartFile.isEmpty()) {
             String fileName = UUID.randomUUID().toString() + "."
                     + StringUtils.cleanPath((Objects.requireNonNull(multipartFile.getOriginalFilename())).split("\\.")[1]);
             form.setPhotos(userPhotoPathForHtml + fileName);
             User newUser = signUpService.signUp(form);
 
             String uploadDir = userPhotoPath + newUser.getId();
-            fileUploadUtil.saveFile(uploadDir, userPhotoPath + newUser.getId() + "\\/" + fileName, multipartFile);
+            fileUploadUtil.saveFile(uploadDir, userPhotoPath + fileName, multipartFile);
         } else {
             signUpService.signUp(form);
         }

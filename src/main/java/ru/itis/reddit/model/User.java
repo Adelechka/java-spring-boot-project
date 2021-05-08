@@ -6,8 +6,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @Data
-@ToString(exclude = "posts")
-@EqualsAndHashCode(exclude = "posts")
+@ToString(exclude = {"posts", "comments", "likedPosts"})
+@EqualsAndHashCode(exclude = {"posts", "comments", "likedPosts"})
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,7 +29,6 @@ public class User {
 
     private String hashPassword;
 
-    @Column(nullable = true)
     private String photos;
 
     @Enumerated(value = EnumType.STRING)
